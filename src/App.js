@@ -1,29 +1,39 @@
-import logo from './logo.svg';
+import { useDispatch, useSelector } from 'react-redux';
 import './App.css';
 
 function App() {
   const dispatch = useDispatch();
   const items = useSelector(state => state);
 
-  function onAddCalback(event) {
-    const data = new FormData(event.target)
-    
+  function onAddCallback(event) {
+    const data = new FormData(event.target);
+    dispatch({ type: "ADD_TODO", text: data.get('text') });
+
+    event.preventDefault();
   }
+
+  function onRemoveCallback(id) {
+    dispatch({ type: "REMOVE_TODO", id: id });
+  }
+
+  const output = Object.keys(items).map(id => (
+    <li key={id}>
+      <span>{items[id].text}</span>
+      <button onClick={() => onRemoveCallback(id)}>Remove</button>
+    </li>
+  ));
 
   return (
     <div className="App">
       <form onSubmit={onAddCallback}>
-        <input type="text" name="text" required/>
+        <input type="text" name="text" required />
         <button>Add</button>
       </form>
       <ul>
-
+        {output}
       </ul>
     </div>
   );
 }
 
 export default App;
-
-
-
