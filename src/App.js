@@ -1,4 +1,5 @@
 import { useDispatch, useSelector } from 'react-redux';
+import { delayedAdd, remove, toggle } from './redux/actions/todo';
 import './App.css';
 
 function App() {
@@ -7,17 +8,17 @@ function App() {
 
   function onAddCallback(event) {
     const data = new FormData(event.target);
-    dispatch({ type: "ADD_TODO", text: data.get('text') });
+    dispatch(delayedAdd(data.get('text')));
 
     event.preventDefault();
   }
 
   function onRemoveCallback(id) {
-    dispatch({ type: "REMOVE_TODO", id: id });
+    dispatch(remove(id));
   }
 
   function onToggleCallback(id) {
-    dispatch({ type: "TOGGLE_TODO", id: id });
+    dispatch(toggle(id));
   }
 
   const output = Object.keys(items).map(id => (
