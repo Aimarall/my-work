@@ -16,9 +16,16 @@ function App() {
     dispatch({ type: "REMOVE_TODO", id: id });
   }
 
+  function onToggleCallback(id) {
+    dispatch({ type: "TOGGLE_TODO", id: id });
+  }
+
   const output = Object.keys(items).map(id => (
     <li key={id}>
-      <span>{items[id].text}</span>
+      <span onClick={() => onToggleCallback(id)}
+        style={{ textDecoration: items[id].done ? "line-through" : "none" }}>
+        {items[id].text}
+      </span>
       <button onClick={() => onRemoveCallback(id)}>Remove</button>
     </li>
   ));
@@ -32,8 +39,6 @@ function App() {
       <ul>
         {output}
       </ul>
-
-     
     </div>
   );
 }
